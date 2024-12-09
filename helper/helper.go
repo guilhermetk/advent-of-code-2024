@@ -56,3 +56,33 @@ func ReadFileByCharacters(name string) [][]string {
 
 	return content
 }
+
+func ReadFileDay5(name string) [][]string {
+	data, err := os.Open(name)
+
+	if err != nil {
+		fmt.Println(err)
+		return [][]string{}
+	}
+
+	defer data.Close()
+
+	scanner := bufio.NewScanner(data)
+	content := [][]string{{}, {}}
+
+	index := 0
+	for scanner.Scan() {
+		line := scanner.Text()
+		if line == "" {
+			index = 1
+			continue
+		}
+		content[index] = append(content[index], line)
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	return content
+}
